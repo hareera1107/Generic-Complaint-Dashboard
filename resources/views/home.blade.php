@@ -1,4 +1,30 @@
-@extends('layouts.app')
+@extends('layouts.dashboard.app')
+
+@section('content')
+<div class="container1">
+    <div class="card">
+        <a href="resolved">Resolved<br> Complaint</a>
+    </div>
+    <div class="card">
+        <a href="inprogress">In Progress <br> Complaint</a>
+    </div>
+</div>
+
+
+<div class="container2">
+    <div class="card">
+        <a href="pending">Pending <br> Complaint</a>
+    </div>
+    
+    <div class="card">
+        <a href="report">Complaint<br> Reports</a>
+    </div>
+</div>
+
+@endsection
+
+
+{{-- @extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -15,9 +41,11 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    <button class="btn btn-primary"> Submit</button>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
-@endsection
+@endsection --}}
