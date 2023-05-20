@@ -1,7 +1,6 @@
-@extends('layouts.dashboard.app')
+@include('layouts.dashboard.app')
 @section('content')
-
-    <h1>Users</h1>
+<h1>Users</h1>
     <form action="{{ route('users.create') }}">
         <a class="btn btn-purple" style="margin-left: 76.75%; margin-bottom:1ch"
             href="{{ route('home') }}">Back</a>
@@ -17,7 +16,8 @@
             </tr>
         </thead>
         <tbody>
-            @if (count($users) > 0)
+          
+            @if ($usersCount > 0)
             @foreach ($users as $user)
             <tr>
                 <td>{{ $user->id }}</td>
@@ -148,7 +148,5 @@
     }
 
     </style>
+
 @endsection
-
-
-

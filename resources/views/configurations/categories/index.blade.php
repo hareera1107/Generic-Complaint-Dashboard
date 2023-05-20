@@ -1,103 +1,101 @@
 @extends('layouts.dashboard.app')
 @section('content')
 
-    <h1>Users</h1>
-    <form action="{{ route('users.create') }}">
-        <a class="btn btn-purple" style="margin-left: 76.75%; margin-bottom:1ch"
+    <h1>Categories</h1>
+    <form action="{{ route('categories.create') }}">
+        <a class="btn btn-purple" style="margin-left: 81.5%; margin-bottom:1ch"
             href="{{ route('home') }}">Back</a>
-        <button type="submit" class="btn btn-purple" style="margin-left: 0%; margin-bottom:1ch">Add users</button>
+        <button type="submit" class="btn btn-purple" style="margin-left: 0%; margin-bottom:1ch">Add Category</button>
     </form>
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
+                <th>Category</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @if (count($users) > 0)
-            @foreach ($users as $user)
-            <tr>
-                <td>{{ $user->id }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                <td>
-                    <form action="{{ route('users.destroy', $user->id) }}"
-                        method="Post">
-                        <a class="btn btn-sm btn-success"
-                            href="{{ route('users.edit', $user->id) }}">Edit</a>
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                            class="btn btn-sm btn-danger">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        @endforeach
-        @else
-                <p>No Users yet.</p>
-            @endif
+            {{-- @if (count($categories) > 0) --}}
+                @foreach ($categories as $category)
+                    <tr>
+                        <td>{{ $category->category }}</td>
+                        <td>
+                            <form action="{{ route('categories.destroy', $category->id) }}" method="Post">
+                                <a class="btn btn-sm btn-success"
+                                    href="{{ route('categories.edit', $category->id) }}">Edit</a>
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            {{-- @else
+                <p>No categories yet.</p>
+            @endif --}}
         </tbody>
     </table>
-    <div class="footer">
+
+    {{-- <div class="footer">
         <div class="pagination-container">
             <div class="pagination-info">
-                Showing {{ $users->firstItem() }} - {{ $users->lastItem() }} of {{ $users->total() }}
+                Showing {{ $complaints->firstItem() }} - {{ $complaints->lastItem() }} of {{ $complaints->total() }}
                 results
             </div>
             <div class="pagination-links">
-                @if ($users->onFirstPage())
+                @if ($complaints->onFirstPage())
                     <span class="arrow">&laquo; Previous</span>
                 @else
-                    <a href="{{ $users->previousPageUrl() }}" class="arrow">&laquo; Previous</a>
+                    <a href="{{ $complaints->previousPageUrl() }}" class="arrow">&laquo; Previous</a>
                 @endif
 
-                @if ($users->hasMorePages())
-                    <a href="{{ $users->nextPageUrl() }}" class="arrow">Next &raquo;</a>
+                @if ($complaints->hasMorePages())
+                    <a href="{{ $complaints->nextPageUrl() }}" class="arrow">Next &raquo;</a>
                 @else
                     <span class="arrow">Next &raquo;</span>
                 @endif
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <style>
-        h1 {
-            justify-content: center;
-            margin-left: 400px;
-            margin-top: 25px;
-            margin-bottom: 0px;
-        }
         table {
             border-collapse: collapse;
             width: 100%;
-            max-width: 800px;
+            max-width: 900px;
             /* margin: 0 auto; */
             color: rgb(20, 19, 19);
             margin-left: 400px;
         }
-        
+
         th,
         td {
             border: 1px solid rgb(12, 10, 10);
             padding: 8px;
             text-align: left;
         }
-        
+
         th {
             font-size: 22px;
             font-weight: bold;
             background-color: rgb(97, 53, 97);
             color: aliceblue;
         }
-        
+
         td:nth-child(even) {
             background-color: white;
         }
-        
-        
+
+        h1 {
+            justify-content: center;
+            margin-left: 400px;
+            margin-top: 25px;
+            margin-bottom: 0px;
+        }
+
+        /* .add-button {
+            background-color: rgb(158, 83, 158);
+        } */
 
         .btn-purple {
         color: #ffffff;
@@ -129,7 +127,7 @@
     }
 
     .pagination-links {
-        margin-left: 51.75%;
+        margin-left: 61%;
     }
 
     /* Add additional styling for the pagination links if needed */
@@ -149,6 +147,3 @@
 
     </style>
 @endsection
-
-
-

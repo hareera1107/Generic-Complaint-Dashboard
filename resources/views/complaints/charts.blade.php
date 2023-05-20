@@ -14,10 +14,9 @@
             var data = google.visualization.arrayToDataTable([
                 ['Task', 'complaint per Day'],
 
-                ['Resoled Complaints', 50],
-                ['In progress Complaints', 25],
-                ['Pending Complaints', 30],
-                ['Complaints Reports', 80]
+                ['Resoled Complaints', {{ $resolvedCount }}],
+                ['In progress Complaints', {{ $inProgressCount }}],
+                ['Pending Complaints', {{ $pendingCount }}]
             ]);
 
             var options = {
@@ -39,10 +38,9 @@
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
                 ['Task', 'complaint per Day'],
-                ['Resoled Complaints', 50],
-                ['In progress Complaints', 20],
-                ['Pending Complaints', 30],
-                ['Complaints Reports', 70]
+                ['Resoled Complaints', {{ $resolvedCount }}],
+                ['In progress Complaints', {{ $inProgressCount }}],
+                ['Pending Complaints', {{ $pendingCount }}]
 
             ]);
 
@@ -59,7 +57,7 @@
         body {
             margin: 0;
             padding: 0;
-            background-image: url('bgtopcurve.jpeg');
+            background-image: url('../images/bgtopcurve.jpeg');
             background-size: cover;
         }
         /* Internal CSS */

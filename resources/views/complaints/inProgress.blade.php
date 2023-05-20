@@ -1,12 +1,15 @@
 @extends('layouts.dashboard.app')
 @section('content')
-
-    <h1>Complaints</h1>
-    <form action="{{ route('complaints.create') }}">
-        <a class="btn btn-purple" style="margin-left: 81.5%; margin-bottom:1ch"
-            href="{{ route('home') }}">Back</a>
-        <button type="submit" class="btn btn-purple" style="margin-left: 0%; margin-bottom:1ch">Add Complaints</button>
+    <h1>InProgress Complaints</h1>
+    <form action="{{ route('home') }}">
+        <button class="btn btn-purple" style="margin-left: 91%; margin-bottom:1ch" >Back</button>
     </form>
+    @if (session('success'))
+        <div class="col-md-4"></div>
+        <div class="alert alert-success col-md-6" role="alert">
+            {{ session('success') }}
+        </div><br>
+    @endif
     <table>
         <thead>
             <tr>
@@ -16,7 +19,7 @@
                 <th>Complaint</th>
                 <th>Registration Date</th>
                 <th>Status</th>
-                <th>Actions</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -29,33 +32,46 @@
                         <td>{{ $complaint->complaint }}</td>
                         <td>{{ $complaint->created_at }}</td>
                         <td>
-                            @if ($complaint->status === 'pending')
-                                <a class="btn btn-sm btn-danger">Pending</a>
-                            @elseif ($complaint->status === 'in_progress')
+                            @if ($complaint->status === 'in_progress')
                                 <a class="btn btn-sm btn-warning">In Progress</a>
-                            @elseif ($complaint->status === 'resolved')
-                                <a class="btn btn-sm btn-success">Resolved</a>
                             @endif
                         </td>
-
                         <td>
-                            <form action="{{ route('complaints.destroy', $complaint->id) }}" method="Post">
-                                <a class="btn btn-sm btn-success"
-                                    href="{{ route('complaints.edit', $complaint->id) }}">Edit</a>
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                            </form>
+                            <a href="{{ route('complaints.markResolved', $complaint->id) }}" class="btn btn-sm btn-success" id="markResolvedBtn">Mark as Resolved</a>
                         </td>
                     </tr>
                 @endforeach
             @else
-                <p>No complaints yet.</p>
+            <tr>
+                <td colspan="7">
+                    <p>No complaints in Inprogress.</p>
+                </td>
+            </tr>
             @endif
+            {{-- <script>
+                $(document).ready(function() {
+                    $('#markResolvedBtn').click(function() {
+                        $.ajax({
+                            url: "{{ route('complaints.markResolved', $complaint->id) }}",
+                            type: "PUT",
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                            },
+                            success: function(response) {
+                                // Reload the page or perform any other desired action
+                                location.reload();
+                            },
+                            error: function(xhr) {
+                                console.log(xhr.responseText);
+                            }
+                        });
+                    });
+                });
+            </script> --}}
         </tbody>
     </table>
-
     <div class="footer">
+        @if (count($complaints) > 0)
         <div class="pagination-container">
             <div class="pagination-info">
                 Showing {{ $complaints->firstItem() }} - {{ $complaints->lastItem() }} of {{ $complaints->total() }}
@@ -75,6 +91,7 @@
                 @endif
             </div>
         </div>
+        @endif
     </div>
 
     <style>
@@ -112,16 +129,18 @@
             margin-bottom: 0px;
         }
 
-        /* .add-button {
-            background-color: rgb(158, 83, 158);
-        } */
-
         .btn-purple {
         color: #ffffff;
         background-color: #800080;
         border-color: #800080;
     }
-
+    p {
+            justify-content: center;
+            margin-left: 350px;
+            /* margin-top: 25px; */
+            margin-bottom: 0px;
+            color: red;
+        }
     .btn-purple:hover {
         color: #ffffff;
         background-color: #6a006a;
@@ -146,7 +165,7 @@
     }
 
     .pagination-links {
-        margin-left: 61%;
+        margin-left: 62%;
     }
 
     /* Add additional styling for the pagination links if needed */
@@ -163,6 +182,5 @@
     .pagination-links .arrow:hover {
         background-color: #f5f5f5;
     }
-
     </style>
 @endsection

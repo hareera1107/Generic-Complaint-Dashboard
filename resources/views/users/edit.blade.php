@@ -5,7 +5,7 @@
     <style>
         h1 {
             justify-content: center;
-            margin-left: 500px;
+            margin-left: 450px;
             margin-top: 30px;
         }
 
@@ -42,7 +42,7 @@
         .login-form button[type="submit"] {
             background: rgb(158, 83, 158);
             width: 100%;
-            padding: 15px;
+            padding: 10px;
             margin-bottom: 10px;
             margin-top: 20px;
             margin-right: 50px;
@@ -56,8 +56,6 @@
         .add-button {
             background-color: rgb(158, 83, 158);
         }
-
-
     </style>
 </head>
 
@@ -71,18 +69,22 @@
             @csrf
             @method('put')
             @include('alerts.success')
+            
             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label>{{ __('Name') }}</label>
-                                <input type="text" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('Enter Name') }}" value="{{ $user->name }}">
-                                @include('alerts.feedback', ['field' => 'name'])
+                <label>{{ __('Name') }}</label>
+                <input type="text" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                    placeholder="{{ __('Enter Name') }}" value="{{ $user->name }}">
+                @include('alerts.feedback', ['field' => 'name'])
             </div>
 
             <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
                 <label>{{ __('Email address') }}</label>
-                <input type="email" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="{{ __('Email address') }}" value="{{ $user->email }}">
+                <input type="email" name="email"
+                    class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                    placeholder="{{ __('Email address') }}" value="{{ $user->email }}">
                 @include('alerts.feedback', ['field' => 'email'])
             </div>
-            <button type="submit"> Add </button>
+            <button type="submit"> Update </button>
         </form>
     </div>
 </body>

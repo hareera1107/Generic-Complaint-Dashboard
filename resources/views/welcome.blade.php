@@ -61,16 +61,18 @@
             margin-top: 50px;
             margin-right: 400px;
         }
-        /*         
-        .logo {
+                
+        .logo img{
             color: #fff;
             font-size: 36px;
             font-weight: bold;
             margin-top: 50px;
             align-items: center;
             justify-content: center;
+            width: 200px;
+            height: 190px;
         }
-         */
+        
         
         h1 {
             margin-top: 50px;
@@ -79,7 +81,7 @@
             font-weight: bold;
             animation: move 1s forwards;
             font-family: 'Times New Roman', Times, serif;
-            color: rgb(8, 8, 8);
+            color: rgb(158, 83, 158);
             margin-right: 200px;
         }
         
@@ -115,7 +117,7 @@
 
 <body>
     <div class="logo">
-        <img src="{{ asset('images/logo.png') }}">
+        <img src="{{ asset('images/logo.jpeg') }}">
     </div>
 
 

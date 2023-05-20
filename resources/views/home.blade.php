@@ -3,21 +3,28 @@
 @section('content')
 <div class="container1">
     <div class="card">
-        <a href="resolved">Resolved<br> Complaint</a>
+        <a href="{{ route('complaints.index') }}">Total<br> Complaints
+            <h3>{{ $allComplaintsCount }}</h3></a>
     </div>
     <div class="card">
-        <a href="inprogress">In Progress <br> Complaint</a>
+        <a href="{{ route('complaints.pending') }}">Pending <br> Complaint
+            <h3>{{ $pendingCount }}</h3></a>
     </div>
+    
 </div>
 
 
 <div class="container2">
+    
     <div class="card">
-        <a href="pending">Pending <br> Complaint</a>
+        <a href="{{ route('complaints.resolved') }}">Resolved<br> Complaint
+            <h3>{{ $resolvedCount }}</h3>
+        </a>
     </div>
     
     <div class="card">
-        <a href="report">Complaint<br> Reports</a>
+        <a href="{{ route('complaints.inProgress') }}">In Progress <br> Complaint
+            <h3>{{ $inProgressCount }}</h3></a>
     </div>
 </div>
 

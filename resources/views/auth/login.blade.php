@@ -106,6 +106,9 @@
             margin-top: 30px;
             /* background: #fff; */
             padding: 40px;
+            padding-right: 60px;
+            /* padding-left: 40px;
+            padding-left: 40px; */
             box-sizing: border-box;
             border-radius: 20px;
             box-shadow: 0px 0px 50px rgba(5, 5, 5, 0.4);
@@ -115,6 +118,7 @@
         .login-form label {
             display: block;
             margin-bottom: 10px;
+            margin-top: 10px;
         }
 
         .login-form input[type="text"],
@@ -122,7 +126,7 @@
         .login-form input[type="password"] {
             width: 100%;
             padding: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             margin-right: 50px;
             border: lightgray;
             border-radius: 3px;
@@ -130,10 +134,11 @@
         }
 
         .login-form input[type="submit"] {
-            width: 100%;
+            width: 105%;
             padding: 15px;
             margin-bottom: 10px;
-            margin-right: 50px;
+            margin-left: 5px;
+            /* margin-right: 50px; */
             border: lightgray;
             box-shadow: 0px 0px 10px rgb(158, 83, 158);
             background: rgb(158, 83, 158);
@@ -146,6 +151,7 @@
             display: block;
             text-align: right;
             margin-bottom: 10px;
+            margin-top: 10px;
             color: rgb(158, 83, 158);
         }
         .span{
@@ -160,36 +166,39 @@
 
 <body>
     <div class="logo">
-        <img src="{{ asset('images/logo.png') }}">
+        <img src="{{ asset('images/logo.jpeg') }}">
     </div>
     <div class="login-form">
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
-            <label for="name">Username:</label>
+            {{-- <label for="name">Username:</label>
             <input type="text" id="name" class="form-control @error('name') is-invalid @enderror" name="name"
-                placeholder="Enter Username" required autocomplete="email" autofocus>
+            value="{{ old('name') }}" placeholder="Enter Username" required autocomplete="name" autofocus>
+            @include('alerts.feedback', ['field' => 'name'])
             @error('name')
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
+                    <strong style="color:red">{{ $message }}</strong>
                 </span>
-            @enderror
+            @enderror --}}
 
             <label for="email">Email:</label>
             <input type="email" id="email" class="form-control @error('email') is-invalid @enderror" name="email"
-                placeholder="Enter email" required autocomplete="email" autofocus>
+            value="{{ old('email') }}" placeholder="Enter email" required autocomplete="email" autofocus>
+            @include('alerts.feedback', ['field' => 'email'])
             @error('name')
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
+                    <strong style="color:red">{{ $message }}</strong>
                 </span>
             @enderror
+
             <label for="password">Password:</label>
             <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" name="password"
                 placeholder="Enter password" required autocomplete="current-password">
-
+                @include('alerts.feedback', ['field' => 'password'])
             @error('password')
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
+                    <strong style="color:red">{{ $message }}</strong>
                 </span>
             @enderror
 
@@ -202,7 +211,7 @@
             <input type="submit" value="Login"></a>
 
             @if (Route::has('register'))
-            <span class="span">Already have account?
+            <span class="span">Don't have account?
                 <a class="register" href="{{ route('register') }}">
                     {{ __('Register now!') }}
                 </a>

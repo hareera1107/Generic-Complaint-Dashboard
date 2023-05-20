@@ -1,13 +1,13 @@
-@include('layouts.dashboard.app')
-
+@extends('layouts.dashboard.app')
+@section('content')
 <head>
-    <title>Login Form</title>
+    <title>update category</title>
     <style>
 
-h2 {
-            justify-content: center;
-            margin-left: 440px;
-        }
+    h2 {
+                justify-content: center;
+                margin-left: 440px;
+            }
         
         .login-form {
             width: 500px;
@@ -64,24 +64,19 @@ h2 {
     </style>
 </head>
 <body>
-    <h2>Edit Complaint</h2>
-    <form action="{{ route('complaints.index') }}">
+    <h2>Edit Category</h2>
+    <form action="{{ route('categories.index') }}">
         <button class="btn btn-purple" style="margin-left: 63%; margin-bottom:1ch">Back</button>
     </form>
     <div class="login-form">
-        <form method="post" action="{{ route('complaints.update', $complaint->id) }}" >
+        <form method="post" action="{{ route('categories.update', $category->id) }}" >
             @csrf
             @method('put')
             <label for="category">Category</label>
-            <input type="text" id="category" name="category" value="{{ $complaint->category }}" placeholder="Enter category" required>
-
-            <label for="district">District</label>
-            <input type="text" id="district" name="district" value="{{ $complaint->district }}" placeholder="Enter district" required>
-
-            <label for="text-area">Complaint</label>
-            <textarea id="complaint" name="complaint" value="{{ $complaint->complaint }}" placeholder="Enter complaint" required> </textarea>
-            <button type="submit"> Submit </button>
+            <input type="text" id="category" name="category" value="{{ $category->category }}" placeholder="Enter category" required>
+            <button type="submit"> Update </button>
     </div>
     </form>
     </div>
 </body>
+@endsection

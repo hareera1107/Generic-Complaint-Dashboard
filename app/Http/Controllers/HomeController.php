@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Complaint;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +24,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $allComplaintsCount = Complaint::all()->count();
+        $pendingCount = Complaint::where('status', 'pending')->count();
+        $inProgressCount = Complaint::where('status', 'in_progress')->count();
+        $resolvedCount = Complaint::where('status', 'resolved')->count();
+        return view('home', compact('pendingCount', 'inProgressCount', 'resolvedCount', 'allComplaintsCount'));
     }
 }
