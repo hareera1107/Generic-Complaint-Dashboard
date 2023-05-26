@@ -1,7 +1,7 @@
-@include('layouts.dashboard.app')
-
+@extends('layouts.dashboard.app')
+@section('content')
 <head>
-    <title>Add Complaint</title>
+    <title>Add Category</title>
     <style>
         h2 {
             justify-content: center;
@@ -65,38 +65,17 @@
 </head>
 
 <body>
-    <h2>Add Complaint</h2>
-    <form action="{{ route('complaints.index') }}">
+    <h2>Add District</h2>
+    <form action="{{ route('districts.index') }}">
         <button class="btn btn-purple" style="margin-left: 63%; margin-bottom:1ch">Back</button>
     </form>
     <div class="login-form">
-        <form method="post" action="{{ route('complaints.store') }}">
+        <form method="post" action="{{ route('districts.store') }}">
             @csrf
-            <label for="category">Category</label>
-            <select name="category" id="category">
-                <option value="">Select Category</option>
-                @foreach ($categories as $categoryId => $categoryName)
-                    <option value="{{ $categoryId }}">{{ $categoryName }}</option>
-                @endforeach
-            </select>
-
             <label for="district">District</label>
-            <select name="district" id="district">
-                <option value="">Select district</option>
-                @foreach ($districts as $districtId => $districtName)
-                    <option value="{{ $districtId }}">{{ $districtName }}</option>
-                @endforeach
-            </select>
-
-            <label for="text-area">Complaint</label>
-            <textarea id="complaint" name="complaint" placeholder="Enter complaint" required> </textarea>
-            {{-- <label for="status">Status</label>
-            <select name="status" id="status">
-                <option value="pending">Pending</option>
-                <option value="in_progress">In Progress</option>
-                <option value="resolved">Resolved</option>
-            </select> --}}
-            <button type="submit"> Submit </button>
+            <input type="text" id="district" name="district" placeholder="Enter district" required>
+            <button type="submit"> Add </button>
         </form>
     </div>
 </body>
+@endsection

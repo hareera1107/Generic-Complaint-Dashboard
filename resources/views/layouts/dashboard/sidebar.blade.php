@@ -14,8 +14,14 @@
             <li><a href="{{ route('complaints.charts') }}">Charts</a></li>
             <li><a href="{{ route('complaints.reports') }}">Reports</a></li>
             <li><a href="{{ route('users.index') }}">Users</a></li>
-            <li><a href="{{ route('categories.index') }}">Configuration</a></li>
-            
+            {{-- <li><a href="{{ route('categories.index') }}">Configuration</a></li> --}}
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Configuration</a>
+                <ul class="dropdown-content">
+                    <li><a href="{{ route('categories.index') }}">Categories</a></li>
+                    <li><a href="{{ route('districts.index') }}">Districts</a></li>
+                </ul>
+            </li>
             <li>
                 <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     Logout

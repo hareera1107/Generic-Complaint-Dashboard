@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Category;
+use App\Models\District;
 use App\Models\Complaint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -25,7 +26,8 @@ class ComplaintController extends Controller
     public function create()
     {
         $categories = Category::pluck('category', 'id');
-        return view('complaints.create', compact('categories'));
+        $districts = District::pluck('district', 'id');
+        return view('complaints.create', compact('categories', 'districts'));
     }
 
     /**

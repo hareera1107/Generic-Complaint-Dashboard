@@ -175,3 +175,26 @@
                                     background-color: rgb(139, 86, 139);
                                     color: rgb(211, 195, 195);
                                 }
+
+                                .dropdown {
+                                    position: relative;
+                                    /* display: inline-block; */
+                                  }
+                              
+                                  .dropdown-content {
+                                    display: none;
+                                    /* position: absolute; */
+                                    /* min-width: 160px; */
+                                    z-index: 1;
+                                  }
+                              
+                                  .dropdown-content a {
+                                    color: black;
+                                    padding: 12px 16px;
+                                    text-decoration: none;
+                                    display: block;
+                                  }
+                              
+                                  .dropdown:hover .dropdown-content {
+                                    display: block;
+                                  }

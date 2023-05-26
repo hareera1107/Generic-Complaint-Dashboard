@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\ComplaintStatusController;
 
@@ -44,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/complaints/{id}/mark-in-progress', [ComplaintController::class, 'markInProgress'])->name('complaints.markInProgress');
     Route::get('/complaints/{id}/mark-resolved', [ComplaintController::class, 'markResolved'])->name('complaints.markResolved');
     Route::resource('categories', CategoryController::class);
+    Route::resource('districts', DistrictController::class);
 
 });
 

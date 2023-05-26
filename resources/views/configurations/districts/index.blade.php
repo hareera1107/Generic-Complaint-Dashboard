@@ -1,47 +1,28 @@
 @extends('layouts.dashboard.app')
 @section('content')
 
-    <h1>Complaints</h1>
-    <form action="{{ route('complaints.create') }}">
+    <h1>Districts</h1>
+    <form action="{{ route('districts.create') }}">
         <a class="btn btn-purple" style="margin-left: 81.5%; margin-bottom:1ch"
             href="{{ route('home') }}">Back</a>
-        <button type="submit" class="btn btn-purple" style="margin-left: 0%; margin-bottom:1ch">Add Complaints</button>
+        <button type="submit" class="btn btn-purple" style="margin-left: 0%; margin-bottom:1ch">Add District</button>
     </form>
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Category</th>
                 <th>District</th>
-                <th>Complaint</th>
-                <th>Registration Date</th>
-                <th>Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @if (count($complaints) > 0)
-                @foreach ($complaints as $complaint)
+            {{-- @if (count($districts) > 0) --}}
+                @foreach ($districts as $district)
                     <tr>
-                        <td>{{ $complaint->id }}</td>
-                        <td>{{ $complaint->category }}</td>
-                        <td>{{ $complaint->district }}</td>
-                        <td>{{ $complaint->complaint }}</td>
-                        <td>{{ $complaint->created_at }}</td>
+                        <td>{{ $district->district }}</td>
                         <td>
-                            @if ($complaint->status === 'pending')
-                                <a class="btn btn-sm btn-danger">Pending</a>
-                            @elseif ($complaint->status === 'in_progress')
-                                <a class="btn btn-sm btn-warning">In Progress</a>
-                            @elseif ($complaint->status === 'resolved')
-                                <a class="btn btn-sm btn-success">Resolved</a>
-                            @endif
-                        </td>
-
-                        <td>
-                            <form action="{{ route('complaints.destroy', $complaint->id) }}" method="Post">
+                            <form action="{{ route('districts.destroy', $district->id) }}" method="Post">
                                 <a class="btn btn-sm btn-success"
-                                    href="{{ route('complaints.edit', $complaint->id) }}">Edit</a>
+                                    href="{{ route('districts.edit', $district->id) }}">Edit</a>
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
@@ -49,18 +30,13 @@
                         </td>
                     </tr>
                 @endforeach
-            @else
-            <tr>
-                <td colspan="7">
-                    <p>No complaints.</p>
-                </td>
-            </tr>
-            @endif
+            {{-- @else
+                <p>No categories yet.</p>
+            @endif --}}
         </tbody>
     </table>
 
-    <div class="footer">
-        @if (count($complaints) > 0)
+    {{-- <div class="footer">
         <div class="pagination-container">
             <div class="pagination-info">
                 Showing {{ $complaints->firstItem() }} - {{ $complaints->lastItem() }} of {{ $complaints->total() }}
@@ -80,8 +56,7 @@
                 @endif
             </div>
         </div>
-        @endif
-    </div>
+    </div> --}}
 
     <style>
         table {
@@ -118,13 +93,6 @@
             margin-bottom: 0px;
         }
 
-        p {
-            justify-content: center;
-            margin-left: 350px;
-            /* margin-top: 25px; */
-            margin-bottom: 0px;
-            color: red;
-        }
         /* .add-button {
             background-color: rgb(158, 83, 158);
         } */
