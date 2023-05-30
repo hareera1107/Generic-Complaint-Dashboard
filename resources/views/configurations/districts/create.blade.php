@@ -73,7 +73,10 @@
         <form method="post" action="{{ route('districts.store') }}">
             @csrf
             <label for="district">District</label>
-            <input type="text" id="district" name="district" placeholder="Enter district" required>
+            <input type="text" id="district" name="district" placeholder="Enter district" >
+            @error('district')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
             <button type="submit"> Add </button>
         </form>
     </div>

@@ -27,10 +27,10 @@
                 @foreach ($complaints as $complaint)
                     <tr>
                         <td>{{ $complaint->id  }}</td>
-                        <td>{{ $complaint->category }}</td>
-                        <td>{{ $complaint->district }}</td>
+                        <td>{{ $complaint->category->category }}</td>
+                        <td>{{ $complaint->district->district }}</td>
                         <td>{{ $complaint->complaint }}</td>
-                        <td>{{ $complaint->created_at }}</td>
+                        <td>{{ $complaint->registration_date }}</td>
                         <td>
                             @if ($complaint->status === 'pending')
                                 <a class="btn btn-sm btn-danger">Pending</a>

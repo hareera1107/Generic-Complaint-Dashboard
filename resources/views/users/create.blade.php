@@ -32,7 +32,7 @@
         .login-form textarea {
             width: 100%;
             padding: 15px;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             margin-right: 50px;
             border: lightgray;
             border-radius: 3px;
@@ -69,24 +69,31 @@
     <div class="login-form">
         <form method="post" action="{{ route('users.store') }}">
             @csrf
-            @include('alerts.success')
+
             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label>{{ __('Name') }}</label>
                                 <input type="text" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('Enter Name') }}" value="">
-                                @include('alerts.feedback', ['field' => 'name'])
             </div>
+            @error('name')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
 
             <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
                 <label>{{ __('Email address') }}</label>
                 <input type="email" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="{{ __('Email address') }}" value="">
-                @include('alerts.feedback', ['field' => 'email'])
+               
             </div>
-
+            @error('name')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
             <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
                 <label>{{ __('Password') }}</label>
-                <input type="password" name="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('Enter Password') }}" value="" required>
-                @include('alerts.feedback', ['field' => 'password'])
+                <input type="password" name="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('Enter Password') }}" value="" >
+                
             </div>
+            @error('password')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
             <button type="submit"> Add </button>
         </form>
     </div>

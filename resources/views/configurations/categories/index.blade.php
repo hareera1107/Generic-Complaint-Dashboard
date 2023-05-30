@@ -7,6 +7,12 @@
             href="{{ route('home') }}">Back</a>
         <button type="submit" class="btn btn-purple" style="margin-left: 0%; margin-bottom:1ch">Add Category</button>
     </form>
+    @if (session('success'))
+        <div class="col-md-4"></div>
+        <div class="alert alert-success col-md-6" role="alert">
+            {{ session('success') }}
+        </div><br>
+    @endif
     <table>
         <thead>
             <tr>

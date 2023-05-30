@@ -73,7 +73,10 @@
             @csrf
             @method('put')
             <label for="district">District</label>
-            <input type="text" id="district" name="district" value="{{ $district->district }}" placeholder="Enter district" required>
+            <input type="text" id="district" name="district" value="{{ $district->district }}" placeholder="Enter district" >
+            @error('district')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
             <button type="submit"> Update </button>
     </div>
     </form>

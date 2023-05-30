@@ -23,15 +23,17 @@
         .login-form label {
             display: block;
             margin-bottom: 10px;
+            margin-top: 10px;
         }
 
         .login-form input[type="text"],
         .login-form input[type="password"],
+        .login-form input[type="date"],
         .login-form textarea,
         .login-form select {
             width: 100%;
             padding: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             margin-right: 50px;
             border: lightgray;
             border-radius: 3px;
@@ -73,29 +75,37 @@
         <form method="post" action="{{ route('complaints.store') }}">
             @csrf
             <label for="category">Category</label>
-            <select name="category" id="category">
+            <select name="category_id" id="category">
                 <option value="">Select Category</option>
-                @foreach ($categories as $categoryId => $categoryName)
-                    <option value="{{ $categoryId }}">{{ $categoryName }}</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->category }}</option>
                 @endforeach
             </select>
+            @error('category')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
 
             <label for="district">District</label>
-            <select name="district" id="district">
+            <select name="district_id" id="district">
                 <option value="">Select district</option>
-                @foreach ($districts as $districtId => $districtName)
-                    <option value="{{ $districtId }}">{{ $districtName }}</option>
+                @foreach ($districts as $district)
+                    <option value="{{ $district->id }}">{{ $district->district }}</option>
                 @endforeach
             </select>
+            @error('district')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
 
             <label for="text-area">Complaint</label>
-            <textarea id="complaint" name="complaint" placeholder="Enter complaint" required> </textarea>
-            {{-- <label for="status">Status</label>
-            <select name="status" id="status">
-                <option value="pending">Pending</option>
-                <option value="in_progress">In Progress</option>
-                <option value="resolved">Resolved</option>
-            </select> --}}
+            <textarea id="complaint" name="complaint" placeholder="Enter complaint" > </textarea>
+            @error('complaint')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+            <label for="registration_date">Registration Date</label>
+            <input type="date" id="registration_date" name="registration_date">
+            @error('registration_date')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
             <button type="submit"> Submit </button>
         </form>
     </div>

@@ -30,7 +30,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category' => 'required',
+            'category' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'min:5']
         ]);
         
         
@@ -62,7 +62,7 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $request->validate([
-            'category' => 'required',
+            'category' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'min:5']
         ]);
         
         $category->fill($request->post())->save();

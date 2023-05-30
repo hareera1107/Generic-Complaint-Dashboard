@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\District;
@@ -16,7 +17,9 @@ class ComplaintController extends Controller
      */
     public function index(Complaint $complaint)
     {
+        
         $complaints = Complaint::paginate(5);
+        // dd($complaints);
         return view('complaints.index', compact('complaints'));
     }
 
@@ -25,8 +28,8 @@ class ComplaintController extends Controller
      */
     public function create()
     {
-        $categories = Category::pluck('category', 'id');
-        $districts = District::pluck('district', 'id');
+        $categories = Category::all();
+        $districts = District::all();
         return view('complaints.create', compact('categories', 'districts'));
     }
 
@@ -36,15 +39,16 @@ class ComplaintController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category' => 'required',
-            'district' => 'required',
-            'complaint' => 'required',
+            'category_id' => 'required',
+            'district_id' => 'required',
+            'complaint' => ['required', 'min:5'],
+            'registration_date' => 'required',
         ]);
         
         
         Complaint::create($request->post());
 
-        return redirect()->route('home')->with('success','Complaint has been created successfully.');
+        return redirect()->route('complaints.index')->with('success','Complaint has been created successfully.');
     }
 
     /**
@@ -60,7 +64,9 @@ class ComplaintController extends Controller
      */
     public function edit(Complaint $complaint)
     {
-        return view('complaints.edit',compact('complaint'));
+        $categories = Category::all();
+        $districts = District::all();
+        return view('complaints.edit',compact('complaint','categories', 'districts'));
     }
 
     /**
@@ -69,9 +75,9 @@ class ComplaintController extends Controller
     public function update(Request $request, Complaint $complaint)
     {
         $request->validate([
-            'category' => 'required',
-            'district' => 'required',
-            'complaint' => 'required',
+            'category_id' => 'required',
+            'district_id' => 'required',
+            'complaint' => ['required', 'min:5'],
         ]);
         
         $complaint->fill($request->post())->save();
@@ -141,12 +147,28 @@ class ComplaintController extends Controller
 
     public function reports()
     {
-        // $allComplaintsCount = Complaint::all()->count();
-        // $pendingCount = Complaint::where('status', 'pending')->count();
-        // $inProgressCount = Complaint::where('status', 'in_progress')->count();
-        // $resolvedCount = Complaint::where('status', 'resolved')->count();
-        // return view('complaints.charts', compact('pendingCount', 'inProgressCount', 'resolvedCount', 'allComplaintsCount'));
-        return view('complaints.reports');
+        $allComplaintsCount = Complaint::all()->count();
+        $pendingCount = Complaint::where('status', 'pending')->count();
+        $inProgressCount = Complaint::where('status', 'in_progress')->count();
+        $resolvedCount = Complaint::where('status', 'resolved')->count();
+
+        $complaints = Complaint::where('registration_date', '>=', Carbon::now()->subDays(5))
+        ->orderBy('registration_date', 'desc')
+        ->get();
+        $datewiseComplaintsCount = Count($complaints);
+    
+        $categorywiseComplaints = Category::withCount('complaints')->get();
+        $categoriesComplaintsCount = 0;
+        foreach($categorywiseComplaints as $categoryCount){
+            $categoriesComplaintsCount = $categoriesComplaintsCount + $categoryCount->complaints_count;
+        }
+        
+        $districtwiseComplaints = District::withCount('complaints')->get();
+        $districtsComplaintsCount = 0;
+        foreach($districtwiseComplaints as $districtCount){
+            $districtsComplaintsCount = $districtsComplaintsCount + $districtCount->complaints_count;
+        }
+        return view('complaints.reports', compact('pendingCount', 'inProgressCount', 'resolvedCount', 'allComplaintsCount', 'complaints', 'datewiseComplaintsCount', 'categorywiseComplaints', 'categoriesComplaintsCount', 'districtwiseComplaints' , 'districtsComplaintsCount'));
     }
 
 

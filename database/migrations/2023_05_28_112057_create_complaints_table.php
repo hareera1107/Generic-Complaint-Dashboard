@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('complaints', function (Blueprint $table) {
             $table->id();
-            $table->string('category');
-            $table->string('district');
-            $table->text('complaint');
+            $table->foreignId('category_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('district_id')->nullable()->constrained()->onDelete('cascade');
+            $table->text('complaint')->nullable();
+            $table->date('registration_date')->nullable();
             $table->enum('status', ['pending', 'in_progress', 'resolved'])->default('pending');
             $table->timestamps();
         });

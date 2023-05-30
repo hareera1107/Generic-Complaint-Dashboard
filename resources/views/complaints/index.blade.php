@@ -7,6 +7,12 @@
             href="{{ route('home') }}">Back</a>
         <button type="submit" class="btn btn-purple" style="margin-left: 0%; margin-bottom:1ch">Add Complaints</button>
     </form>
+    @if (session('success'))
+        <div class="col-md-4"></div>
+        <div class="alert alert-success col-md-6" role="alert">
+            {{ session('success') }}
+        </div><br>
+    @endif
     <table>
         <thead>
             <tr>
@@ -23,11 +29,12 @@
             @if (count($complaints) > 0)
                 @foreach ($complaints as $complaint)
                     <tr>
+
                         <td>{{ $complaint->id }}</td>
-                        <td>{{ $complaint->category }}</td>
-                        <td>{{ $complaint->district }}</td>
+                        <td>{{ $complaint->category->category }}</td>
+                        <td>{{ $complaint->district->district }}</td>
                         <td>{{ $complaint->complaint }}</td>
-                        <td>{{ $complaint->created_at }}</td>
+                        <td>{{ $complaint->registration_date }}</td>
                         <td>
                             @if ($complaint->status === 'pending')
                                 <a class="btn btn-sm btn-danger">Pending</a>
@@ -177,5 +184,40 @@
         background-color: #f5f5f5;
     }
 
+    @media (max-width: 768px) {
+            h1 {
+                text-align: center;
+                margin-left: 0;
+            }
+
+            p {
+                text-align: center;
+                margin-left: 0;
+            }
+
+            .table-container {
+                padding: 0;
+            }
+
+            table {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .pagination-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .table-container {
+                padding: 0;
+                overflow-x: auto;
+            }
+
+            table {
+                width: auto;
+            }
+        }
     </style>
 @endsection

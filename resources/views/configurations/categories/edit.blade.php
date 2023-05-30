@@ -73,7 +73,10 @@
             @csrf
             @method('put')
             <label for="category">Category</label>
-            <input type="text" id="category" name="category" value="{{ $category->category }}" placeholder="Enter category" required>
+            <input type="text" id="category" name="category" value="{{ $category->category }}" placeholder="Enter category">
+            @error('category')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
             <button type="submit"> Update </button>
     </div>
     </form>

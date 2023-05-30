@@ -28,10 +28,10 @@
             }
 
             /* canvas {
-                display: block;
-                margin: 0 auto;
-                max-width: 300%;
-            } */
+                                            display: block;
+                                            margin: 0 auto;
+                                            max-width: 300%;
+                                        } */
 
             html {
                 font-size: 16px;
@@ -44,7 +44,7 @@
             }
 
             .container {
-                
+
                 /* flex-wrap: wrap; */
                 /* justify-content: center; */
                 /* margin-top: 10px; */
@@ -54,33 +54,33 @@
 
             /*main cards styling*/
             /* .main-cards {
-                float: right;
-                display: grid;
-                grid-template-columns: 2fr 2fr 2fr 2fr;
-                gap: 30px;
-                margin: 10px 0;
-                margin-right: 20px;
+                                            float: right;
+                                            display: grid;
+                                            grid-template-columns: 2fr 2fr 2fr 2fr;
+                                            gap: 30px;
+                                            margin: 10px 0;
+                                            margin-right: 20px;
 
-            } */
+                                        } */
 
             /* .cards {
-                display: flex;
-                position: static;
-                right: 0;
-                float: right;
-                text-align: center;
-                flex-direction: column;
-                justify-content: space-around;
-                padding: 10px;
-                color: white;
-                background: #CCA2BE;
-                box-shadow: #905788;
-                transition: transform 0.2s ease-in-out;
-            }
+                                            display: flex;
+                                            position: static;
+                                            right: 0;
+                                            float: right;
+                                            text-align: center;
+                                            flex-direction: column;
+                                            justify-content: space-around;
+                                            padding: 10px;
+                                            color: white;
+                                            background: #CCA2BE;
+                                            box-shadow: #905788;
+                                            transition: transform 0.2s ease-in-out;
+                                        }
 
-            .cards:hover {
-                transform: scale(1.1);
-            } */
+                                        .cards:hover {
+                                            transform: scale(1.1);
+                                        } */
 
             .card {
                 /* width: 20%; */
@@ -97,6 +97,7 @@
                 box-shadow: #905788;
                 transition: transform 0.2s ease-in-out;
             }
+
             .card:hover {
                 transform: scale(1.1);
             }
@@ -104,41 +105,10 @@
     </head>
 
     <body>
-
-        {{-- <div class="grid-container">
-        <main class="main-container">
-            <div class="main-cards">
-                <div class="cards">
-                    <div class="card-inner">
-                        <h3>Status-Wise Reports</h3>
-                        <h2>345</h2>
-                    </div>
-                </div>
-                <div class="cards">
-                    <div class="card-inner">
-                        <h3>Date Wise Reports</h3>
-                        <h2>345</h2>
-                    </div>
-                </div>
-                <div class="cards">
-                    <div class="card-inner">
-                        <h3>Category Wise Reports</h3>
-                        <h2>345</h2>
-                    </div>
-                </div>
-                <div class="cards">
-                    <div class="card-inner">
-                        <h3>District Wise Reports</h3>
-                        <h2>345</h2>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div> --}}
         <div class="container">
             <div class="card">
                 <h3>Status-Wise Reports</h3>
-                <h4>345</h4>
+                <h4>{{ $allComplaintsCount }}</h4>
             </div>
 
             <div>
@@ -148,7 +118,7 @@
         <div class="container">
             <div class="card">
                 <h3>Date Wise Reports</h3>
-                <h4>345</h4>
+                <h4>{{ $datewiseComplaintsCount }}</h4>
             </div>
 
             <div>
@@ -159,7 +129,7 @@
         <div class="container">
             <div class="card">
                 <h3>Category Wise Reports</h3>
-                <h4>345</h4>
+                <h4>{{ $categoriesComplaintsCount }}</h4>
             </div>
 
             <div>
@@ -170,31 +140,19 @@
         <div class="container">
             <div class="card">
                 <h3>District Wise Reports</h3>
-                <h4>345</h4>
+                <h4>{{ $districtsComplaintsCount }}</h4>
             </div>
 
             <div id="districts-chart"></div>
         </div>
-            
-
-        
-        {{-- <div class="container">
-            <div>
-                <canvas id="status-chart"></canvas>
-            </div>
-            <div>
-                <canvas id="complaints-chart"></canvas>
-            </div>
-            <div>
-                <canvas id="category-chart"></canvas>
-            </div>
-            <div id="districts-chart"></div>
-        </div> --}}
 
         </div>
 
         <script>
             var ctx = document.getElementById('status-chart').getContext('2d');
+            var pendingCount = {{ $pendingCount }};
+            var inProgressCount = {{ $inProgressCount }};
+            var resolvedCount = {{ $resolvedCount }};
             var chart = new Chart(ctx, {
                 // The type of chart we want to create
                 type: 'bar',
@@ -206,7 +164,7 @@
                         label: 'Status-Wise Complaints',
                         backgroundColor: ['rgb(223, 178, 223)', 'rgb(223, 178, 223)', 'rgb(223, 178, 223)'],
                         borderColor: 'rgb(223, 178, 223)',
-                        data: [10, 5, 3]
+                        data: [pendingCount, inProgressCount, resolvedCount]
                     }]
                 },
 
@@ -214,14 +172,42 @@
                 options: {}
             });
 
+
             var canvas = document.getElementById('complaints-chart');
+
+            // Extract the registration dates from the data
+            var complaints = {!! json_encode($complaints) !!};
+
+            var uniqueDates = [];
+            var dates = complaints.reduce(function(acc, complaint) {
+                var date = complaint.registration_date;
+                if (!uniqueDates.includes(date)) {
+                    uniqueDates.push(date);
+                    acc.push(date);
+                }
+                return acc;
+            }, []);
+
+            // Calculate the counts of complaints per date
+            var counts = complaints.reduce(function(acc, complaint) {
+                var date = complaint.registration_date;
+                if (acc[date]) {
+                    acc[date]++;
+                } else {
+                    acc[date] = 1;
+                }
+                return acc;
+            }, {});
+
+            // Convert the counts object to an array of values
+            counts = Object.values(counts);
 
             // Define the chart data
             var chartData = {
-                labels: ['2022-05-01', '2022-05-02', '2022-05-03', '2022-05-04', '2022-05-05'],
+                labels: dates,
                 datasets: [{
                     label: 'Date-Wise Complaints',
-                    data: [4, 6, 8, 3, 5],
+                    data: counts,
                     backgroundColor: '#4B215F',
                     borderWidth: 1
                 }]
@@ -250,11 +236,22 @@
                 }
             });
 
+
+
+            var categories = {!! json_encode($categorywiseComplaints) !!};
+            var categoryNames = categories.map(function(category) {
+                return category.category;
+            });
+
+            var complaintCounts = categories.map(function(category) {
+                return category.complaints_count;
+            });
+
             var data = {
-                labels: ["Category 1", "Category 2", "Category 3", "Category 4"],
+                labels: categoryNames,
                 datasets: [{
                     label: "Category-Wise Report",
-                    data: [20, 30, 60, 10],
+                    data: complaintCounts,
                     backgroundColor: ["rgb(139, 86, 139)", "rgb(139, 86, 139)", "rgb(139, 86, 139)",
                         "rgb(139, 86, 139)"
                     ],
@@ -276,60 +273,44 @@
                     }
                 }
             });
+
+
             google.charts.load('current', {
-                'packages': ['corechart']
-            });
+    'packages': ['corechart']
+});
 
-            // Set a callback function to run when the library is loaded
-            google.charts.setOnLoadCallback(drawChart);
+// Set a callback function to run when the library is loaded
+google.charts.setOnLoadCallback(drawChart);
 
-            // Define the callback function
-            function drawChart() {
-                // Define the chart data
-                var chartData = google.visualization.arrayToDataTable([
-                    ['District', 'Number of Complaints'],
-                    ['Lahore', 25],
-                    ['Faisalabad', 18],
-                    ['Gujranwala', 15],
-                    ['Multan', 14],
-                    ['Dera Ghazi Khan', 10],
-                    ['Gujrat', 8],
-                    ['Muzaffargarh', 8],
-                    ['Bhakkar', 7],
-                    ['Jhang', 7],
-                    ['Chakwal', 6],
-                    ['Mianwali', 6],
-                    ['Okara', 6],
-                    ['Bahawalpur', 9],
-                    ['Mandi Bahauddin', 5],
-                    ['Jhelum', 5],
-                    ['Narowal', 5],
-                    ['Bannu', 1],
-                    ['Khushab', 3],
-                    ['Kasur', 3],
-                    ['Chiniot', 3],
-                    ['Nankana Sahib', 4],
-                    ['Khanewal', 4],
-                    ['Pakpattan', 6],
-                    ['Lodhran', 4],
-                    ['Bahawalnagar', 5],
-                    ['Hafizabad', 2],
-                    ['Layyah', 2]
-                ]);
+// Define the callback function
+function drawChart() {
+    var districtwiseComplaints = {!! json_encode($districtwiseComplaints) !!};
 
-                // Set the chart options
-                var chartOptions = {
-                    title: "District-wise Complaints",
-                    height: 150,
-                    legend: {
-                        position: 'none'
-                    }
-                };
+    // Create an empty array to store the chart data
+    var chartData = [
+        ['District', 'Number of Complaints']
+    ];
 
-                // Create the chart and attach it to the chart container
-                var chart = new google.visualization.ColumnChart(document.getElementById("districts-chart"));
-                chart.draw(chartData, chartOptions);
-            }
+    // Iterate over the districtwiseComplaints data and populate the chart data array
+    districtwiseComplaints.forEach(function(district) {
+        chartData.push([district.district, district.complaints_count]);
+    });
+
+    // Set the chart options
+    var chartOptions = {
+        title: "District-wise Complaints",
+        height: 150,
+        legend: {
+            position: 'none'
+        },
+        colors: ['#4B215F']
+    };
+
+    // Create the chart and attach it to the chart container
+    var chart = new google.visualization.ColumnChart(document.getElementById("districts-chart"));
+    chart.draw(google.visualization.arrayToDataTable(chartData), chartOptions);
+}
+
         </script>
     </body>
 @endsection

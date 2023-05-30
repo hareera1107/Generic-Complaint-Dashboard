@@ -30,7 +30,7 @@ class DistrictController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'district' => 'required',
+            'district' => ['required', 'regex:/^[a-zA-Z ]*$/',  'min:5']
         ]);
         
         
@@ -61,7 +61,7 @@ class DistrictController extends Controller
     public function update(Request $request, District $district)
     {
         $request->validate([
-            'district' => 'required',
+            'district' => ['required', 'regex:/^[a-zA-Z ]*$/', 'min:5']
         ]);
         
         $district->fill($request->post())->save();

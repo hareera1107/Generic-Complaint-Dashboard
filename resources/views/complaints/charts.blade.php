@@ -38,7 +38,7 @@
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
                 ['Task', 'complaint per Day'],
-                ['Resoled Complaints', {{ $resolvedCount }}],
+                ['Resolved Complaints', {{ $resolvedCount }}],
                 ['In progress Complaints', {{ $inProgressCount }}],
                 ['Pending Complaints', {{ $pendingCount }}]
 
